@@ -1,0 +1,2 @@
+{'name': '小明', 'age': '18', 'class_num': '以'}
+{'name': '小王', 'age': '19', 'class_num': '二年级'}
