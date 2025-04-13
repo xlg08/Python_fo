@@ -152,10 +152,153 @@
 
 ![1744510609639](C:\Users\LG\AppData\Roaming\Typora\typora-user-images\1744510609639.png)
 
+#### pandas技术
 
+##### **TimedeltaProperties 对象**
 
+###### 对象
 
+> 在 Pandas 中，`TimedeltaProperties` 是专门用来操作 **时间差列（Timedelta）** 的一个“工具包”。
+>
+> 当有一列数据是时间差（比如 `3 days 05:30:00`、`2小时` 这种格式），Pandas 会通过 `dt` 访问器调用这个工具包，使得可以方便地提取时间差的各个部分（比如天数、小时、秒数等）。
+>
+>
 
+###### 核心作用
+
+> 它存在的意义：**把复杂的时间差数据拆解成具体的数值**，方便计算和分析。
+
+###### **常见属性和方法**
+
+> 假设有一个时间差列 `df["时间差"]`，通过 `df["时间差"].dt` 调用 `TimedeltaProperties` 后，可以这样操作：
+>
+> **1.提取时间差的组成部分**
+>
+> - **.days** → 获取时间差的 **总天数**（整数部分）
+>
+>   ```
+>   # 示例：时间差是 "3天5小时30分"，输出 3
+>   df["时间差"].dt.days
+>   ```
+>
+> - **.seconds** → 获取时间差的 **剩余秒数**（扣除天数后的秒数）
+>
+>   ```
+>   # 示例：时间差是 "3天5小时30分"，输出 5*3600 + 30*60 = 19800 秒
+>   df["时间差"].dt.seconds0
+>   ```
+>
+> - **.microseconds** → 获取时间差的 **微秒数**
+>
+> - **.nanoseconds** → 获取时间差的 **纳秒数**
+>
+> **2. 转换为总单位**
+>
+> - **.total_seconds()** → 获取时间差的 **总秒数**（包括天数的秒数）
+>
+>   ```
+>   # 示例：时间差是 "3天5小时30分"，总秒数 = 3*86400 + 5*3600 + 30*60 = 284400
+>   df["时间差"].dt.total_seconds()
+>   ```
+
+#### pyecharts技术
+
+#####  faker 对象
+
+###### 对象
+
+> **Faker** 是一个专门用于生成虚拟测试数据的工具类。
+>
+> 目的是方便用户在快速绘制图表时，无需手动准备真实数据，即可进行演示、测试或教学。
+
+###### **Faker 的主要功能**
+
+>1. **内置常用虚拟数据**
+>   `Faker` 预置了多种常见类型的模拟数据，例如：
+>   - **地名**：省份、城市（如 `Faker.provinces`, `Faker.guangdong_city`）
+>   - **数值**：随机数、金额（如 `Faker.values()`, `Faker.amount()`）
+>   - **分类名称**：商品、浏览器类型（如 `Faker.products`, `Faker.browsers`）
+>   - **时间序列**：日期（如 `Faker.date()`）
+>2. **简化图表开发流程**
+>   通过直接调用 `Faker` 的方法，可以快速生成符合 ECharts 图表要求的输入格式（如列表、键值对等），节省手动造数据的时间。
+
+###### **示例**
+
+> from pyecharts.charts import Bar
+> from pyecharts.faker import Faker
+> from pyecharts import options as opts
+>
+> #生成虚拟数据：x轴为商品名，y轴为随机数值
+> x_data = Faker.products  # 例如 ["商品A", "商品B", "商品C", "商品D", "商品E"]
+> y_data = Faker.values()  # 例如 [40, 90, 55, 80, 30]
+>
+> #绘制柱状图
+> bar = (
+>    	 Bar()
+>    	 .add_xaxis(x_data)    .add_yaxis("销量", y_data)
+>   	 .set_global_opts(title_opts=opts.TitleOpts(title="虚拟商品销量"))
+> )
+>
+> bar.render("demo.html")  # 生成 HTML 文件并查看图表
+
+###### **与其他 Faker 库的区别**
+
+> - **python-faker 库**：一个独立的第三方库，功能更全面（生成姓名、地址、文本等），但需要额外安装。
+> - **pyecharts.faker.Faker**：PyEcharts 内置的轻量级工具，专注于图表测试数据，无需额外安装。
+
+###### 常用方法
+
+![1744539621157](C:\Users\LG\AppData\Roaming\Typora\typora-user-images\1744539621157.png)
+
+> 通过 `dir(Faker)` 可查看全部可用数据方法。利用这些数据，你可以快速测试折线图、饼图、地图等多种图表类型。
+
+##### options 对象
+
+###### 对象
+
+>`options` 用于定义和配置图表的各种样式、组件和交互行为。
+>
+>提供了一系列类和方法，允许用户通过参数化方式精细控制图表的外观和功能。
+
+###### 作用
+
+>1. **图表标题**（`TitleOpts`）
+>2. **坐标轴**（`AxisOpts`：如 X/Y 轴的标签、范围、刻度等）
+>3. **图例**（`LegendOpts`）
+>4. **工具箱**（`ToolboxOpts`：如保存图片、数据缩放等工具）
+>5. **视觉映射**（`VisualMapOpts`：颜色、尺寸映射）
+>6. **提示框**（`TooltipOpts`：鼠标悬停时的信息展示）
+>7. **其他高级配置**（如动画、背景色等
+
+###### 用法
+
+> from pyecharts import options as opts
+>
+>
+>
+> #示例：创建一个折线图并配置标题、坐标轴
+>
+> chart = (
+> ​	Line()
+> ​		.add_xaxis([...])
+> ​		.add_yaxis("系列名称", [...])
+> ​		.set_global_opts(
+> ​			title_opts=opts.TitleOpts(title="我的图表"),  # 标题配置
+> ​			xaxis_opts=opts.AxisOpts(name="X轴"),        # X轴配置
+> ​			yaxis_opts=opts.AxisOpts(name="Y轴"),        # Y轴配置
+> ​			toolbox_opts=opts.ToolboxOpts()             # 显示默认工具箱
+> ​		)
+> ​	)
+
+###### 结构
+
+> `options` 模块包含多个子类，每个类对应一种配置项。例如：
+>
+> - `TitleOpts`: 图表标题
+> - `AxisOpts`: 坐标轴
+> - `LegendOpts`: 图例位置和样式
+> - `TooltipOpts`: 提示框格式
+> - `VisualMapOpts`: 颜色/尺寸映射规则
 
 
 
