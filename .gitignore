@@ -1,0 +1,9 @@
+/model
+/data
+*.zip
+*.rar
+*.csv
+.idea
+.DS_Store
+*/*.log
+*/.pytest_cache
