@@ -38,3 +38,5 @@ print(f"平均绝对值误差: {mean_absolute_error(y, y_pre)}")
 plt.scatter(x, y)
 plt.plot(np.sort(x), y_pre[np.argsort(x)], color='red')
 plt.show()
+
+

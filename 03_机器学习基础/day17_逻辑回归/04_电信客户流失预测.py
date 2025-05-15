@@ -1,5 +1,16 @@
 '''
+    1 正样本中被预测为正样本的概率TPR （True Positive Rate）
+    2 负样本中被预测为正样本的概率FPR （False Positive Rate）
+        通过这两个指标可以描述模型对正/负样本的分辨能力  (分辨出正、负样本的能力)
 
+    ROC曲线（Receiver Operating Characteristic curve） -- 受试者工作特征曲线
+        一种常用于评估分类模型性能的可视化工具。
+        ROC曲线以模型的真正率TPR为纵轴，假正率FPR为横轴，它将模型在不同阈值下的表现以曲线的形式展现出来。
+
+    AUC (Area Under the ROC Curve） ROC曲线下面积
+        ROC曲线的优劣可以通过曲线下的面积（AUC）来衡量，AUC越大表示分类器性能越好。
+            当AUC=0.5时，表示分类器的性能等同于随机猜测
+            当AUC=1时，表示分类器的性能完美，能够完全正确地将正负例分类。
 '''
 
 
